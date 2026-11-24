@@ -2,7 +2,7 @@ from langchain_openai import ChatOpenAI
 from simple_agent.config import get_llm_config
 
 
-def get_llm_client(**overrides) -> ChatOpenAI:
+def build_llm_client(**overrides) -> ChatOpenAI:
     llm_config = get_llm_config()
     if llm_config.api_key is None:
         raise RuntimeError("LLM_API_KEY не задан")
@@ -17,7 +17,7 @@ def get_llm_client(**overrides) -> ChatOpenAI:
 
 
 async def _main(q: str) -> None:
-    llm = get_llm_client()
+    llm = build_llm_client()
     resp = await llm.ainvoke(q)
     print(resp.content)
 
