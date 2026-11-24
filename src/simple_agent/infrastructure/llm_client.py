@@ -1,5 +1,5 @@
 from langchain_openai import ChatOpenAI
-from src.config import get_llm_config
+from simple_agent.config import get_llm_config
 
 
 def get_llm_client(**overrides) -> ChatOpenAI:

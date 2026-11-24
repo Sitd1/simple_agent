@@ -1,9 +1,9 @@
 from charset_normalizer.md import lru_cache
 
 from pydantic import AliasChoices, SecretStr, field_validator, Field
-from pydantic_settings import SettingsConfigDict, BaseSettings
+from pydantic_settings import SettingsConfigDict
 
-from src.config.base import ConfigBase, strip_wrapping_quotes
+from simple_agent.config.base import ConfigBase, strip_wrapping_quotes
 
 
 

@@ -1,10 +1,10 @@
 from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.runtime import Runtime
 
-from src.graph.prompts.example_prompt import EXAMPLE_SYS_PROMPT, build_example_prompt
-from src.graph.schemas.example_schema import ExampleSchema
-from src.graph.deps import Deps
-from src.graph.state import State
+from simple_agent.graph.prompts.example_prompt import EXAMPLE_SYS_PROMPT, build_example_prompt
+from simple_agent.graph.schemas.example_schema import ExampleSchema
+from simple_agent.graph.deps import Deps
+from simple_agent.graph.state import State
 
 
 async def example_node(state: State, runtime: Runtime[Deps]) -> State:

@@ -1,9 +1,9 @@
 from langgraph.graph import START, END, StateGraph
 
-from src.graph.deps import Deps
-from src.graph.state import State
+from simple_agent.graph.deps import Deps
+from simple_agent.graph.state import State
 
-from src.graph.nodes.example_node import example_node
+from simple_agent.graph.nodes.example_node import example_node
 
 
 def build_graph() -> StateGraph:
