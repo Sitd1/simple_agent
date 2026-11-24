@@ -2,7 +2,7 @@ from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.runtime import Runtime
 
 from simple_agent.graph.prompts.agent_prompt import AGENT_SYS_PROMPT, build_agent_prompt
-from simple_agent.graph.schemas.agent_schema import AgentSchema
+from simple_agent.graph.schemas import AgentSchema
 from simple_agent.graph.deps import Deps
 from simple_agent.graph.state import State
 

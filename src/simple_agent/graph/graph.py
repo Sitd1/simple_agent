@@ -1,16 +1,19 @@
 from langgraph.graph import START, END, StateGraph
+from langgraph.prebuilt import ToolNode
 
 from simple_agent.graph.deps import Deps
 from simple_agent.graph.state import State
 
-from simple_agent.graph.nodes.agent_node import example_node
+from simple_agent.graph.nodes.agent_node import agent_node
 
 
 def build_graph() -> StateGraph:
-    graph = StateGraph(State, context_schema=Deps)
+    builder = StateGraph(State, context_schema=Deps)
 
-    graph.add_node("example", example_node)
-    graph.add_edge(START, "example")
-    graph.add_edge("example", END)
-    return graph.compile()
+    builder.add_node("agent", agent_node())
+    builder.add_node("tools", ToolNode(TOOLS))
+
+    builder.add_edge(START, "agent")
+    builder.add_edge("agent", END)
+    return builder.compile()
 
