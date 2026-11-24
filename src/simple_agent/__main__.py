@@ -41,7 +41,7 @@ async def chat() -> None:
             print("агент> Не уложился в лимит шагов, попробуйте переформулировать вопрос.")
             continue
 
-        message = result["messages"]
+        messages = result["messages"]
         print(f"агент> {messages[-1].content}")
 
 

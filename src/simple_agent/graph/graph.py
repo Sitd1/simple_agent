@@ -12,7 +12,7 @@ from simple_agent.graph.conditions import route_after_agent
 def build_graph() -> StateGraph:
     builder = StateGraph(State, context_schema=Deps)
 
-    builder.add_node("agent", agent_node())
+    builder.add_node("agent", agent_node)
     builder.add_node("tools", ToolNode(TOOLS))
 
     builder.add_edge(START, "agent")
