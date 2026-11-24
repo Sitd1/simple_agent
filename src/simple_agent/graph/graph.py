@@ -3,7 +3,7 @@ from langgraph.graph import START, END, StateGraph
 from simple_agent.graph.deps import Deps
 from simple_agent.graph.state import State
 
-from simple_agent.graph.nodes.example_node import example_node
+from simple_agent.graph.nodes.agent_node import example_node
 
 
 def build_graph() -> StateGraph:
@@ -13,3 +13,4 @@ def build_graph() -> StateGraph:
     graph.add_edge(START, "example")
     graph.add_edge("example", END)
     return graph.compile()
+
