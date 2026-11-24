@@ -1,13 +1,14 @@
 from langchain_openai import ChatOpenAI
-from src.config.llm_config import llm_config
+from src.config import get_llm_config
 
 
 def get_llm_client(**overrides) -> ChatOpenAI:
+    llm_config = get_llm_config()
     if llm_config.api_key is None:
-        raise RuntimeError("LLM_API_KEY (или OPENROUTER_API_KEY) не задан")
+        raise RuntimeError("LLM_API_KEY не задан")
     return ChatOpenAI(
         model=llm_config.model,
-        api_key=llm_config.api_key.get_secret_value(),
+        api_key=llm_config.api_key,
         base_url=llm_config.base_url,          # https://openrouter.ai/api/v1
         temperature=llm_config.temperature,
         timeout=llm_config.timeout_seconds,

@@ -18,5 +18,7 @@ def strip_wrapping_quotes(value: object) -> object:
 class ConfigBase(BaseSettings):
     """Только общий model_config, никаких доменных полей."""
     model_config = SettingsConfigDict(
-        env_file=".env", env_file_encoding="utf-8", extra="ignore"
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore"
     )

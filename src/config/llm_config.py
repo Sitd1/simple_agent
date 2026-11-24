@@ -1,11 +1,10 @@
-from dotenv import load_dotenv
+from charset_normalizer.md import lru_cache
+
 from pydantic import AliasChoices, SecretStr, field_validator, Field
 from pydantic_settings import SettingsConfigDict, BaseSettings
 
 from src.config.base import ConfigBase, strip_wrapping_quotes
 
-
-load_dotenv()
 
 
 # LLM Agent (OpenRouter, OpenAI-совместимый API — см. scripts/indicator_manifest_search_llm_tag.py)
@@ -41,24 +40,10 @@ class BaseLLMConfig(ConfigBase):
         return strip_wrapping_quotes(value)
 
 
-# class ModelSettings(BaseSettings):
-#     model: str = Field(
-#         default="Qwen/Qwen2.5-32B-Instruct-GPTQ-Int4",
-#         validation_alias="model_name",
-#     )
-#     api_key: str = Field(default="EMPTY")
-#     base_url: str = Field(default="http://vllm:8000/v1")
-#     temperature: float = Field(default=0)
-#     extra_body: dict = Field(
-#         default_factory=lambda: {"chat_template_kwargs": {"enable_thinking": False}},
-#     )
-#     model_config = SettingsConfigDict(
-#         env_prefix="MODEL_",
-#         env_file_encoding="utf-8",
-#     )
 
-
-llm_config = BaseLLMConfig()
+@lru_cache
+def get_llm_config() -> BaseLLMConfig:
+    return BaseLLMConfig()
 
 if __name__ == "__main__":
-    print(llm_config)
+    print(get_llm_config())
