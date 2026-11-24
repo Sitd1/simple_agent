@@ -5,9 +5,9 @@ from simple_agent.graph.prompts.agent_prompt import AGENT_SYS_PROMPT, build_agen
 from simple_agent.graph.schemas import AgentSchema
 from simple_agent.graph.deps import Deps
 from simple_agent.graph.state import State
+from simple_agent.graph.tools import TOOLS
 
 
-TOOLS = None
 
 async def agent_node(state: State, runtime: Runtime[Deps]) -> State:
     llm = runtime.context.llm.bind_tools(TOOLS)
