@@ -24,14 +24,15 @@ src/simple_agent/
 ├── graph/
 │   ├── deps.py           # GraphDeps: что нужно узлам
 │   ├── state.py          # состояние графа
-│   ├── graph.py          # сборка и compile()
+│   ├── graph.py          # сборка и compile(), build_graph() -> StateGraph
 │   ├── nodes/            # узлы: async (state, runtime) -> dict
 │   ├── conditions/       # функции ветвления для add_conditional_edges
-│   ├── prompts/          # тексты промптов
+│   ├── prompts/          # тексты промптов, шаблоны промптов
+│   ├── tools/            # встроенные инструменты
 │   └── schemas/          # Pydantic-схемы для structured output
 └── infrastructure/       # фабрики клиентов LLM и эмбеддингов
 tests/                    # conftest.py с фейковыми зависимостями
-notebooks/                # эксперименты
+notebooks/                # эксперименты (в .gitignore)
 ```
 
 ## Как устроены зависимости
@@ -48,7 +49,8 @@ notebooks/                # эксперименты
 
 ## Конфигурация
 
-Настройки читаются из переменных окружения и файла `.env`. Вложенные секции разделяются двойным подчёркиванием:
+Настройки читаются из переменных окружения и файла `.env`. Вложенные секции разделяются через префикс:
+Префиксы задаются при создании config в `src/simple_agent/config/`
 
 ```dotenv
 LLM_MODEL=...
@@ -134,10 +136,11 @@ def fake_deps() -> GraphDeps:
 
 ```python
 # tests/test_graph_smoke.py
-from simple_agent.graph.graph import graph
+from simple_agent.graph.graph import build_graph
 
 
 async def test_graph_answers(fake_deps):
+    graph = build_graph()
     result = await graph.ainvoke({"messages": [("user", "hello")]}, context=fake_deps)
     assert result["messages"][-1].content == "Привет!"
 ```
