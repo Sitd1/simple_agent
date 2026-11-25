@@ -3,5 +3,5 @@ from langchain_core.language_models import BaseChatModel
 
 
 @dataclass
-class Deps:
+class GraphDeps:
     llm: BaseChatModel
