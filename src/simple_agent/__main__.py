@@ -15,7 +15,10 @@ RECURSION_LIMIT = 10
 
 async def chat() -> None:
     deps = build_graph_deps()
-    config = {"configurable": {"thread_id": "cli"}}
+    config = {
+        "configurable": {"thread_id": "cli"},
+        "recursion_limit": RECURSION_LIMIT,
+    }
     graph = build_graph(checkpointer=InMemorySaver())
     print("Агент готов. Для выхода введите exit или нажмите Ctrl+D.")
 
@@ -34,8 +37,7 @@ async def chat() -> None:
             result = await graph.ainvoke(
                 {"messages": [HumanMessage(user_input)]},
                 config=config,
-                context=deps,
-                cconfig={"recursion_limit": RECURSION_LIMIT},
+                context=deps
             )
         except GraphRecursionError as e:
             print(e)
