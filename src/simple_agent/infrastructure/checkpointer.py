@@ -11,5 +11,5 @@ async def manage_sqlite_checkpointer(
     ) -> AsyncIterator[AsyncSqliteSaver]:
     cfg = config or StorageConfig()
     cfg.ensure_dir()
-    async with AsyncSqliteSaver.from_conn_string(cfg.sqlite_path) as saver:
+    async with AsyncSqliteSaver.from_conn_string(str(cfg.sqlite_path)) as saver:
         yield saver
