@@ -1,9 +1,17 @@
+import sys
+
+sys.stdin.reconfigure(encoding="utf-8", errors="replace")
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+
+import argparse
 import asyncio
 
 from langchain_core.messages import HumanMessage
 from langgraph.errors import GraphRecursionError
 
 from simple_agent.bootstrap.graph_deps import build_graph_deps
+from simple_agent.bootstrap.helpers import make_run_config
 from simple_agent.graph.graph import build_graph
 from simple_agent.infrastructure.checkpointer import manage_sqlite_checkpointer
 
@@ -13,19 +21,29 @@ EXIT_COMMANDS = {"exit", "quit", "выход"}
 RECURSION_LIMIT = 10
 
 
-async def chat() -> None:
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Simple Agent CLI")
+    parser.add_argument("--user", default="local_user", help="ID пользователя")
+    parser.add_argument("--thread", default="cli", help="ID диалога (треда)")
+    return parser.parse_args()
+
+
+async def chat(user_id: str, thread_id: str) -> None:
     deps = build_graph_deps()
-    config = {
-        "configurable": {"thread_id": "cli_1"},
-        "recursion_limit": RECURSION_LIMIT,
-    }
+    config = make_run_config(
+        user_id=user_id,
+        thread_id=thread_id,
+        recursion_limit=RECURSION_LIMIT
+    )
 
     async with manage_sqlite_checkpointer() as checkpointer:
         graph = build_graph(checkpointer=checkpointer)
-        print("Агент готов. Для выхода введите exit или нажмите Ctrl+D.")
+        print(f"Агент готов [user={user_id}, thread={thread_id}]. Для выхода введите exit.")
+
         while True:
             try:
                 user_input = input("\nвы> ")
+                user_input.encode("utf-8", errors="ignore").decode("utf-8")
             except (EOFError, KeyboardInterrupt) as e:
                 print(e)
                 break
@@ -50,7 +68,8 @@ async def chat() -> None:
 
 
 def main() -> None:
-    asyncio.run(chat())
+    args = parse_args()
+    asyncio.run(chat(user_id=args.user, thread_id=args.thread))
 
 
 if __name__ == "__main__":
