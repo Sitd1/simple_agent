@@ -154,13 +154,15 @@ uv run pytest
 Ноутбуки в `notebooks/` работают в окружении проекта, поэтому в качестве ядра выберите `.venv`. Пакет установлен в editable-режиме, а чтобы изменения в `src/` подхватывались без перезапуска ядра, включите autoreload:
 
 ```python
-%load_ext autoreload
-%autoreload 2
+%load_ext
+autoreload
+%autoreload
+2
 
-from simple_agent.bootstrap.graph_deps import build_deps
+from simple_agent.bootstrap.graph_deps import build_graph_deps
 from simple_agent.graph.graph import graph
 
-result = await graph.ainvoke({"messages": [("user", "Привет")]}, context=build_deps())
+result = await graph.ainvoke({"messages": [("user", "Привет")]}, context=build_graph_deps())
 ```
 
 ## Разработка

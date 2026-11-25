@@ -1,11 +1,11 @@
 import asyncio
 
-from langchain_core.messages import AnyMessage, HumanMessage
+from langchain_core.messages import HumanMessage
+from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.errors import GraphRecursionError
 
-from simple_agent.bootstrap.graph_deps import build_deps
+from simple_agent.bootstrap.graph_deps import build_graph_deps
 from simple_agent.graph.graph import build_graph
-
 
 EXIT_COMMANDS = {"exit", "quit", "выход"}
 
@@ -14,9 +14,9 @@ RECURSION_LIMIT = 10
 
 
 async def chat() -> None:
-    deps = build_deps()
-    messages: list[AnyMessage] = []
-    graph = build_graph()
+    deps = build_graph_deps()
+    config = {"configurable": {"thread_id": "cli"}}
+    graph = build_graph(checkpointer=InMemorySaver())
     print("Агент готов. Для выхода введите exit или нажмите Ctrl+D.")
 
     while True:
@@ -32,7 +32,8 @@ async def chat() -> None:
 
         try:
             result = await graph.ainvoke(
-                {"messages": [*messages, HumanMessage(user_input)]},
+                {"messages": [HumanMessage(user_input)]},
+                config=config,
                 context=deps,
                 cconfig={"recursion_limit": RECURSION_LIMIT},
             )
