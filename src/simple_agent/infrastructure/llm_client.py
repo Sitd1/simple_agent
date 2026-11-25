@@ -20,6 +20,6 @@ async def _main(q: str, llm_config: BaseLLMConfig) -> None:
 
 
 if __name__ == "__main__":
-    from simple_agent.config import get_llm_config
+    from simple_agent.config import build_llm_config
     import asyncio
-    asyncio.run(_main(q="А Ты кто, Воин?", llm_config=get_llm_config()))
+    asyncio.run(_main(q="А Ты кто, Воин?", llm_config=build_llm_config()))

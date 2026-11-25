@@ -42,8 +42,8 @@ class BaseLLMConfig(ConfigBase):
 
 
 @lru_cache
-def get_llm_config() -> BaseLLMConfig:
+def build_llm_config() -> BaseLLMConfig:
     return BaseLLMConfig()
 
 if __name__ == "__main__":
-    print(get_llm_config())
+    print(build_llm_config())
