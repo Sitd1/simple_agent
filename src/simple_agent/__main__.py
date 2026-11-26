@@ -43,7 +43,7 @@ async def chat(user_id: str, thread_id: str) -> None:
         while True:
             try:
                 user_input = input("\nвы> ")
-                user_input.encode("utf-8", errors="ignore").decode("utf-8")
+                user_input = user_input.strip()
             except (EOFError, KeyboardInterrupt) as e:
                 print(e)
                 break
