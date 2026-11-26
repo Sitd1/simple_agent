@@ -1,4 +1,5 @@
 from langgraph.graph import START, StateGraph
+from langgraph.graph.state import CompiledStateGraph
 from langgraph.prebuilt import ToolNode
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
@@ -10,7 +11,7 @@ from simple_agent.graph.tools import TOOLS
 from simple_agent.graph.conditions import route_after_agent
 
 
-def build_graph(checkpointer: BaseCheckpointSaver | None = None) -> StateGraph:
+def build_graph(checkpointer: BaseCheckpointSaver | None = None) -> CompiledStateGraph:
     builder = StateGraph(State, context_schema=GraphDeps)
 
     builder.add_node("agent", agent_node)
